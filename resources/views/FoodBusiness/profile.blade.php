@@ -327,18 +327,54 @@
                                             @endif/> Meat/jerky/pates<br>
                                         </div>
                                         <div class="col-6">
-                                            <input type="checkbox" name="typesofproduct[]" value="12" /> Meal or box Foods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="12" /> Non-food products<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="13" /> Oils or Vinegars<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="14" /> Raw agriculture processing<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="15" /> Ready-to-eat foods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="16" /> Sauces/seasonings<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="17" /> Seafoods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="18" /> Snacks<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="19" /> Soup/stews/beans<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="20" /> Spreads/syrups<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="21" /> Vegetables/fruits<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="22" /> Others<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="14"
+                                            @if(in_array("14",$btype))
+                                                    checked="checked"
+                                            @endif /> Meal or box Foods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="15"
+                                            @if(in_array("15",$btype))
+                                                    checked="checked"
+                                            @endif /> Non-food products<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="16" 
+                                            @if(in_array("16",$btype))
+                                                    checked="checked"
+                                            @endif/> Oils or Vinegars<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="17"
+                                            @if(in_array("17",$btype))
+                                                    checked="checked"
+                                            @endif /> Raw agriculture processing<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="18"
+                                            @if(in_array("18",$btype))
+                                                    checked="checked"
+                                            @endif /> Ready-to-eat foods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="19"
+                                            @if(in_array("19",$btype))
+                                                    checked="checked"
+                                            @endif /> Sauces/seasonings<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="20" 
+                                            @if(in_array("20",$btype))
+                                                    checked="checked"
+                                            @endif/> Seafoods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="21" 
+                                            @if(in_array("21",$btype))
+                                                    checked="checked"
+                                            @endif/> Snacks<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="22" 
+                                            @if(in_array("22",$btype))
+                                                    checked="checked"
+                                            @endif/> Soup/stews/beans<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="23" 
+                                            @if(in_array("23",$btype))
+                                                    checked="checked"
+                                            @endif/> Spreads/syrups<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="24" 
+                                            @if(in_array("24",$btype))
+                                                    checked="checked"
+                                            @endif/> Vegetables/fruits<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="25" 
+                                            @if(in_array("25",$btype))
+                                                    checked="checked"
+                                            @endif/> Others<br>
                                         </div>
                                     </div>        
                                 </div>
@@ -360,6 +396,7 @@
                                 <div class="col-4">
                                     <lable>Logo </lable>
                                     <input type="file" name="logofile"  required class="form-control" accept="image/*"/>
+                                    <img src="{{ secure_asset('uploads/'.$blogo)}}" width="50" height="50" alt="">
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -524,19 +561,31 @@
     // });
     $('#securitypass').submit((e)=>{
         e.preventDefault();
+        var newpassword = $('input[name=newpassword]').val();
+        var confirmpassword = $('input[name=confirmpassword]').val();
+        if(newpassword == confirmpassword ){
+            validPassFunc();
+        }
+        else{
+            alert(' Password notmatch')
+        }
+       function validPassFunc(){
         var form = $('#securitypass').serialize();
-        console.log(form);
-        // $.ajax({
-        //     type : 'post',
-        //     url : '/Subscriber/profile/updatebusiness',
-        //     data : form,
-        //     success:function(Response){
-        //         console.log(Response);
-        //     },
-        //     error:function(Response){
-        //         console.log(Response);
-        //     }
-        // })
+       
+       // $.ajax({
+       //     type : 'post',
+       //     url : '/Subscriber/profile/securitypass',
+       //     data : form,
+       //     success:function(Response){
+       //          alert(Response);
+       //         window.location.reload();
+       //     },
+       //     error:function(Response){
+       //         alert(Response);
+       //         window.location.reload();
+       //     }
+       // })
+       }
     });
     $('#socailmedia').submit((e)=>{
         e.preventDefault();
