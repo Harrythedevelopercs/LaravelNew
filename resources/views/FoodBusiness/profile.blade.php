@@ -572,19 +572,19 @@
        function validPassFunc(){
         var form = $('#securitypass').serialize();
        
-       // $.ajax({
-       //     type : 'post',
-       //     url : '/Subscriber/profile/securitypass',
-       //     data : form,
-       //     success:function(Response){
-       //          alert(Response);
-       //         window.location.reload();
-       //     },
-       //     error:function(Response){
-       //         alert(Response);
-       //         window.location.reload();
-       //     }
-       // })
+       $.ajax({
+           type : 'post',
+           url : '/Subscriber/profile/securitypass',
+           data : form,
+           success:function(Response){
+                alert(Response);
+               window.location.reload();
+           },
+           error:function(Response){
+               alert(Response);
+               window.location.reload();
+           }
+       })
        }
     });
     $('#socailmedia').submit((e)=>{
