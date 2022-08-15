@@ -144,7 +144,7 @@ class BuyerController extends Controller
             'salt'      => $salt,
             'bid'       => $bid,
             'bname'     => $bname,
-            $bcat = $bprofile->business_category;
+            'bcat'      => $bcat, 
             $bdescription = $bprofile->business_description;
             $btype = $bprofile->product_type;
             $bstage = $bprofile->business_stage;
