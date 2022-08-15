@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="{{ asset('assets/Home/bootstrap/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/Home/stylesheet/style.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('assets/Home/bootstrap/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('assets/Home/stylesheet/style.css') }}">
 </head>
 <body>
     <header id="header"><!-- Header Render Here --></header>
@@ -71,11 +71,11 @@
         </section>
     </main>
     <footer id="footer"><!-- Footer Render Here --></footer>
-    <script src="{{ asset('assets/Home/javascript/jquery-3.6.0.js') }}"></script>
-    <script src="{{ asset('assets/Home/bootstrap/bootstrap.bundle.js') }}"></script>
-    <script src="{{ asset('assets/Home/javascript/header-render.js') }}"></script>
-    <script src="{{ asset('assets/Home/javascript/footer-render.js') }}"></script>
-    <script src="{{ asset('assets/Home/javascript/script.js')}}"></script>
+    <script src="{{ secure_asset('assets/Home/javascript/jquery-3.6.0.js') }}"></script>
+    <script src="{{ secure_asset('assets/Home/bootstrap/bootstrap.bundle.js') }}"></script>
+    <script src="{{ secure_asset('assets/Home/javascript/header-render.js') }}"></script>
+    <script src="{{ secure_asset('assets/Home/javascript/footer-render.js') }}"></script>
+    <script src="{{ secure_asset('assets/Home/javascript/script.js')}}"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script>
         $(document).ready(function() {
