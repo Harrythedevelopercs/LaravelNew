@@ -64,7 +64,7 @@ class BuyerController extends Controller
             $role = $profile->role;
             $status = $profile->Status;
         }
-        return view('FoodBusiness\bookings',[
+        return view('FoodBusiness.bookings',[
             'id'=> $id,
             'username'  =>  $username,
             'password'  =>  $password,
@@ -90,7 +90,7 @@ class BuyerController extends Controller
             $role = $profile->role;
             $status = $profile->Status;
         }
-        return view('FoodBusiness\calendar',[
+        return view('FoodBusiness.calendar',[
             'id'=> $id,
             'username'  =>  $username,
             'password'  =>  $password,
@@ -132,7 +132,7 @@ class BuyerController extends Controller
 
         }
  
-        return view('FoodBusiness\profile',[
+        return view('FoodBusiness.profile',[
             'id'=> $id,
             'username'  =>  $username,
             'password'  =>  $password,
