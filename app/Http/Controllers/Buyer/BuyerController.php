@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class BuyerController extends Controller
 {
@@ -227,10 +228,20 @@ class BuyerController extends Controller
 
     public function confirmpayment(Request $request){
         return $request;
+
     }
 
     public function securitypass(Request $request){
-        return $request;
+        $sessionuser  = $request->session()->get('RetailerData');
+        $newpass = $request['newpassword'];
+        $newpass = Hash::make($newpass);
+        $updateuserpassword = DB::table('users')->where('user_id',$sessionuser[0]->id)->update(['password',$newpass]);
+        if($updateuserpassword){
+            return "Password Updated Successfully";
+        }
+        else{
+            return "Please Contact Your Administrator Password Not Changed";
+        }
     }
 
     public function socailmedia(Request $request){
