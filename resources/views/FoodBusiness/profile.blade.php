@@ -187,7 +187,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <lable>Business Name</lable>
-                                    <input type="text" name="bname" value="" class="form-control" placeholder="Business Name"/>
+                                    <input type="text" name="bname" value="{{ $bname }}" class="form-control" placeholder="Business Name"/>
                                 </div>
                                 <div class="col-6">
                                     <lable>Business Category</lable>
