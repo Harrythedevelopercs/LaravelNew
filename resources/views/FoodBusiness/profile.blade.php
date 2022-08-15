@@ -192,18 +192,64 @@
                                 <div class="col-6">
                                     <lable>Business Category</lable>
                                     <select class="form-control" name="bcategory">
+                                        
                                         <option value="0">Select Category</option>    
-                                        <option value="1232">Baker</option>
-                                        <option value="292">Beverage manufacturer </option>
-                                        <option value="1">Caterer</option>
-                                        <option value="2">Chef</option>
-                                        <option value="282">Educator or cooking instructor </option>
-                                        <option value="852">Farmer</option>
-                                        <option value="302">Food artisan or value added producer (not a baker) </option>
-                                        <option value="3">Food truck, cart, or mobile food vendor</option>
-                                        <option value="1242">Pet food maker</option>
-                                        <option value="9">Restauranteur</option>
-                                        <option selected="selected" value="862">Other</option>
+                                        <option value="1232" 
+                                        @if($bcat === "1232")
+                                            selected="true"
+                                        @endif
+                                       
+                                        >Baker</option>
+                                        <option value="292"
+                                        @if($bcat === "292")
+                                             selected="true"
+                                        @endif
+                                        >Beverage manufacturer </option>
+                                        <option value="1"
+                                        @if($bcat === "1")
+                                            selected="true"
+                                        @endif
+                                        >Caterer</option>
+                                        <option value="2"
+                                        @if($bcat === "2")
+                                            selected="true"
+                                        @endif
+                                        >Chef</option>
+                                        <option value="282"
+                                        @if($bcat === "282")
+                                            selected="true"
+                                        @endif
+                                        >Educator or cooking instructor </option>
+                                        <option value="852"
+                                        @if($bcat === "852")
+                                            selected="true"
+                                        @endif
+                                        >Farmer</option>
+                                        <option value="302"
+                                        @if($bcat === "302")
+                                            selected="true"
+                                        @endif
+                                        >Food artisan or value added producer (not a baker) </option>
+                                        <option value="3"
+                                        @if($bcat === "3")
+                                            selected="true"
+                                        @endif
+                                        >Food truck, cart, or mobile food vendor</option>
+                                        <option value="1242"
+                                        @if($bcat === "1242")
+                                            selected="true"
+                                        @endif
+                                        >Pet food maker</option>
+                                        <option value="9"
+                                        @if($bcat === "9")
+                                            selected="true"
+                                        @endif
+                                        >Restauranteur</option>
+                                        <option 
+                                        @if($bcat === "862")
+                                            selected="true"
+                                        @endif
+                                        value="862">Other</option>
                                     </select>
                                 </div>
                             </div>
@@ -213,26 +259,72 @@
                                         </br>   
                                         <small>Tell your kitchen community about your business! What products do you make? What makes your business standout? And where can people buy what you make?</small>
                                     </lable>
-                                    <textarea class="form-control" name="descriptionbusinesss">...</textarea>
+                                    <textarea class="form-control" name="descriptionbusinesss">{{$bdescription}}</textarea>
                                 </div>
                                 <div class="col-12">
                                     <h5>Types of Product</h5>
                                     
                                     <div class="row">
                                         <div class="col-6">
-                                            <input type="checkbox" name="typesofproduct[]" value="1" /> Baby Foods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="2" /> Baked goods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="3" /> Baking or ingredient Mix (Dry)<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="4" /> Beverages<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="5" /> Candies & Confectionery<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="6" /> Condiments<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="7" /> Consumer Packaged Goods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="8" /> Dairy & Eggs<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="9" /> Frozen Foods<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="10" /> Grains/cereal/pastas<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="11" /> jams/jellies<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="12" /> Lifestyle<br>
-                                            <input type="checkbox" name="typesofproduct[]" value="11" /> Meat/jerky/pates<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="1" 
+                                            @if(in_array("1",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Baby Foods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="2" 
+                                            @if(in_array("2",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Baked goods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="3" 
+                                            @if(in_array("3",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Baking or ingredient Mix (Dry)<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="4" 
+                                            @if(in_array("4",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Beverages<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="5" 
+                                            @if(in_array("5",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Candies & Confectionery<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="6" 
+                                            @if(in_array("6",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Condiments<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="7" 
+                                            @if(in_array("7",$btype))
+                                                    checked="checked"
+                                            @endif/> Consumer Packaged Goods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="8" 
+                                            @if(in_array("8",$btype))
+                                                    checked="checked"
+                                            @endif/> Dairy & Eggs<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="9" 
+                                            @if(in_array("9",$btype))
+                                                    checked="checked"
+                                            @endif/> Frozen Foods<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="10" 
+                                            @if(in_array("10",$btype))
+                                                    checked="checked"
+                                            @endif/> Grains/cereal/pastas<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="11" 
+                                            @if(in_array("11",$btype))
+                                                    checked="checked"
+                                            @endif/> jams/jellies<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="12" 
+                                            @if(in_array("12",$btype))
+                                                    checked="checked"
+                                            @endif
+                                            /> Lifestyle<br>
+                                            <input type="checkbox" name="typesofproduct[]" value="13" 
+                                            @if(in_array("2",$btype))
+                                                    checked="checked"
+                                            @endif/> Meat/jerky/pates<br>
                                         </div>
                                         <div class="col-6">
                                             <input type="checkbox" name="typesofproduct[]" value="12" /> Meal or box Foods<br>
@@ -267,7 +359,7 @@
                                 </div>
                                 <div class="col-4">
                                     <lable>Logo </lable>
-                                    <input type="file" name="logofile"  class="form-control" accept="image/*"/>
+                                    <input type="file" name="logofile"  required class="form-control" accept="image/*"/>
                                 </div>
                             </div>
                             <div class="row mt-3">

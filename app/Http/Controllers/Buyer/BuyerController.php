@@ -120,13 +120,13 @@ class BuyerController extends Controller
         }
         
         $BusinessProfile = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->get();
-       
+        $bbtype = [];
         foreach($BusinessProfile as $bprofile){
             $bid = ($bprofile->id ) ? $bprofile->id : "0";
             $bname = ($bprofile->bussiness_name) ? $bprofile->bussiness_name : "Your Business Name";
             $bcat = ($bprofile->business_category) ? $bprofile->business_category : "Your Business Category";
             $bdescription = ($bprofile->business_description) ? $bprofile->business_description : "Your Business Description";
-            $btype = ($bprofile->product_type) ? $bprofile->product_type : "[0]";
+            $bbtype = ($bprofile->product_type) ? json_decode($bprofile->product_type) : "[0]";
             $bstage = ($bprofile->business_stage) ? $bprofile->business_stage : "Your Business Stage";
             $blogo = ($bprofile->logo) ? $bprofile->logo : "Your Logo";
 
@@ -147,7 +147,7 @@ class BuyerController extends Controller
             'bname'     => $bname,
             'bcat'      => $bcat, 
             'bdescription' => $bdescription,
-            'btype'         => $btype,
+            'btype'         => $bbtype,
             'bstage'        => $bstage,
             'blogo' => $blogo,
         ]);
