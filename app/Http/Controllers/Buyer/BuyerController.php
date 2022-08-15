@@ -28,7 +28,7 @@ class BuyerController extends Controller
             $status = $profile->Status;
         }
         
-       return view('foodbusiness.dashboard',[
+       return view('FoodBusiness.dashboard',[
             'id'=> $id,
             'username'  =>  $username,
             'password'  =>  $password,
