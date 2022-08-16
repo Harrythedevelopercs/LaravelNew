@@ -21,7 +21,7 @@ class RetailerLoginCheck
             return $next($request);
         }else{
             $request->session()->flash('retailerlogin','Please Login');
-            return redirect('/Login');
+            return redirect('/login');
         }
         
     }
