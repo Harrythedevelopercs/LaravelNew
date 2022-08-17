@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
+
+
 class BuyerController extends Controller
 {
 
@@ -121,16 +124,33 @@ class BuyerController extends Controller
         }
         
         $BusinessProfile = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->get();
-        $bbtype = [];
-        foreach($BusinessProfile as $bprofile){
-            $bid = ($bprofile->id ) ? $bprofile->id : "0";
-            $bname = ($bprofile->bussiness_name) ? $bprofile->bussiness_name : "Your Business Name";
-            $bcat = ($bprofile->business_category) ? $bprofile->business_category : "Your Business Category";
-            $bdescription = ($bprofile->business_description) ? $bprofile->business_description : "Your Business Description";
-            $bbtype = ($bprofile->product_type) ? json_decode($bprofile->product_type) : "[0]";
-            $bstage = ($bprofile->business_stage) ? $bprofile->business_stage : "Your Business Stage";
-            $blogo = ($bprofile->logo) ? $bprofile->logo : "Your Logo";
-
+        if(!empty($BusinessProfile) ){
+            $bbtype = [];
+            foreach($BusinessProfile as $bprofile){
+                $bid = ($bprofile->id) ? $bprofile->id : "0";
+                $bname = ($bprofile->bussiness_name) ? $bprofile->bussiness_name : "Your Business Name";
+                $bcat = ($bprofile->business_category) ? $bprofile->business_category : "Your Business Category";
+                $bdescription = ($bprofile->business_description) ? $bprofile->business_description : "Your Business Description";
+                $bbtype = ($bprofile->product_type) ? json_decode($bprofile->product_type) : "[0]";
+                $bstage = ($bprofile->business_stage) ? $bprofile->business_stage : "Your Business Stage";
+                $blogo = ($bprofile->logo) ? $bprofile->logo : "Your Logo";
+    
+            }
+        }
+        else{
+            $bid = "0";
+            $bname =  "Your Business Name";
+            $bcat =  "Your Business Category";
+            $bdescription =  "Your Business Description";
+            $bbtype =  ["0"];
+            $bstage =  "Your Business Stage";
+            $blogo =  "Your Logo";
+        }
+        
+        $SocialProfile = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->get();
+        foreach($SocialProfile as $smprofile){
+           $id = ($smprofile->id) ? $smprofile->id : "0";
+           $instagram = ($smprofile->instagram) ? $smprofile->instagram : "";
         }
  
         return view('FoodBusiness.profile',[
@@ -227,7 +247,8 @@ class BuyerController extends Controller
     }
 
     public function confirmpayment(Request $request){
-        return $request;
+        $sessionuser  = $request->session()->get('RetailerData');
+
 
     }
 
@@ -235,7 +256,7 @@ class BuyerController extends Controller
         $sessionuser  = $request->session()->get('RetailerData');
         $newpass = $request['newpassword'];
         $newpass = Hash::make($newpass);
-        $updateuserpassword = DB::table('users')->where('user_id',$sessionuser[0]->id)->update(['password',$newpass]);
+        $updateuserpassword = DB::table('users')->where('email',$sessionuser[0]->email)->update(['password' => $newpass]);
         if($updateuserpassword){
             return "Password Updated Successfully";
         }
@@ -245,7 +266,45 @@ class BuyerController extends Controller
     }
 
     public function socailmedia(Request $request){
-        return $request;
+        $sessionuser  = $request->session()->get('RetailerData');
+        $instagram = $request['instagram'];
+        $facebook = $request['Facebook'];
+        $twitter = $request['twitter'];
+        $website = $request['Website'];
+        $checkif = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->count();
+        if($checkif > 0){
+            $insertsocial = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->update([
+                'instagram' => ($instagram) ? $instagram : "Your Instagram account",
+                'facebook' => ($facebook) ? $facebook : "Your Facebook account",
+                'twitter' => ($twitter) ? $twitter : "Your Twitter account",
+                'website' => ($website) ? $website : "Your Website ",
+                'status' => 'Active',
+                'user_id' => $sessionuser[0]->id
+            ]);
+            if($insertsocial){
+                return "Social Media Update ";
+            }
+            else{
+                return "Error";
+            }
+        } 
+        else{
+            $insertsocial = DB::table('social_media')->insert([
+                'instagram' => ($instagram) ? $instagram : "Your Instagram account",
+                'facebook' => ($facebook) ? $facebook : "Your Facebook account",
+                'twitter' => ($twitter) ? $twitter : "Your Twitter account",
+                'website' => ($website) ? $website : "Your Website ",
+                'status' => 'Active',
+                'user_id' => $sessionuser[0]->id
+            ]);
+            if($insertsocial){
+                return "Social Media Update ";
+            }
+            else{
+                return "Error";
+            }
+        }
+       
     }
 
     public function documents(Request $request){
@@ -277,5 +336,28 @@ class BuyerController extends Controller
             'salt'      => $salt,
         ]);
        
+    }
+
+    public function vupload(Request $request){
+        if($request->hasfile('files'))
+
+        {
+
+           foreach($request->file('files') as $file)
+
+           {
+
+                $name = time().'.'.$file->getClientOriginalName();
+                $file->move(public_path('uploads'),$name);
+            //   $file->move(public_path().'/files/', $name);  
+
+                $data[] = $name;  
+
+           }
+            if(empty($data)){
+
+            }
+
+        }
     }
 }

@@ -154,15 +154,13 @@
                                 <ul class="submenu megamenu">
                                     <li>
                                         <ul>
-                                            <li><a href="pages-login.html">Documents</a></li>
-                                            <li><a href="pages-register.html">Reports</a></li>
-                                            <li><a href="pages-recoverpw.html">Community</a></li>
+                                            <li><a href="/Subscriber/documents">Documents</a></li>
+                                            <li><a href="/Subscriber/documents">Reports</a></li>
+                                            <li><a href="/Subscriber/community">Community</a></li>
                                         </ul>
                                     </li>
                                     <li>
                                         <ul>
-                                            <li><a href="pages-blank.html">ADS</a></li>
-                                            <li><a href="pages-404.html">Business</a></li>
                                             <li><a href="pages-500.html">Payments</a></li>
                                         </ul>
                                     </li>

@@ -396,7 +396,7 @@
                                 <div class="col-4">
                                     <lable>Logo </lable>
                                     <input type="file" name="logofile"  required class="form-control" accept="image/*"/>
-                                    <img src="{{ secure_asset('uploads/'.$blogo)}}" width="50" height="50" alt="">
+                                    <img src="{{ asset('uploads/'.$blogo)}}" width="50" height="50" alt="">
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -527,12 +527,12 @@
             url : '/Subscriber/profile/updateprofile',
             data : form,
             success:function(Response){
-                alert(Response);
+                console.log(Response);
                 window.location.reload();
 
             },
             error:function(Response){
-                alert(Response);
+                console.log(Response);
                 window.location.reload();
             }
         })
@@ -587,21 +587,23 @@
        })
        }
     });
+
+    
     $('#socailmedia').submit((e)=>{
         e.preventDefault();
         var form = $('#socailmedia').serialize();
         console.log(form);
-        // $.ajax({
-        //     type : 'post',
-        //     url : '/Subscriber/profile/updatebusiness',
-        //     data : form,
-        //     success:function(Response){
-        //         console.log(Response);
-        //     },
-        //     error:function(Response){
-        //         console.log(Response);
-        //     }
-        // })
+        $.ajax({
+            type : 'post',
+            url : '/Subscriber/profile/socailmedia',
+            data : form,
+            success:function(Response){
+                console.log(Response);
+            },
+            error:function(Response){
+                console.log(Response);
+            }
+        })
     });
 </script>
 @include('FoodBusiness/footer');

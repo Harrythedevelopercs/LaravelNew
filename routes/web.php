@@ -94,6 +94,11 @@ Route::controller(MasterController::class)->group( function () {
             Route::post('/Subscriber/profile/securitypass', 'securitypass');
             Route::post('/Subscriber/profile/socailmedia', 'socailmedia');
             Route::get('/Subscriber/documents', 'documents');
+            Route::get('/Subscriber/reports', 'reports');
+            Route::post(' /Subscriber/documents/verify/upload', 'vupload');
+           
+            Route::get('/Subscriber/community', 'community');
+           
             Route::get('/Subscriber/logout', 'logout');
         });
     });
