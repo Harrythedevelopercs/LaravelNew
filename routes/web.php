@@ -100,6 +100,9 @@ Route::controller(MasterController::class)->group( function () {
             Route::get('/Subscriber/image/delete/{id}/{url}','imagedelete');
             Route::get('/Subscriber/image/vdelete/{id}/{url}','imagedeletev');
             Route::get('/Subscriber/community', 'community');
+            Route::get('/Subscriber/getmessage', 'getmessage');
+            Route::post('/Subscriber/community/message', 'communitymessage');
+           
            
             Route::get('/Subscriber/logout', 'logout');
         });

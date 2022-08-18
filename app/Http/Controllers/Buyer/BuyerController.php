@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
 
 
 
@@ -357,7 +357,6 @@ class BuyerController extends Controller
                     'user_id'       => $sessionuser[0]->id,
                     'status'        => "Active"
                 ]);
-               
             }
             if ($uploadtodatabase) {
                 $request->session()->flash('documentuploaded', 'Document Uploaded Successfully');
@@ -369,11 +368,12 @@ class BuyerController extends Controller
         }
     }
 
-    public function imagedelete(Request $request , $id,$url){
-       
-        $deleted = DB::table('userdocuments')->where('id',$id)->delete();
-        if($deleted){
-            File::delete('uploads/'.$url);
+    public function imagedelete(Request $request, $id, $url)
+    {
+
+        $deleted = DB::table('userdocuments')->where('id', $id)->delete();
+        if ($deleted) {
+            File::delete('uploads/' . $url);
             return redirect()->back();
         }
         return redirect()->back();
@@ -396,7 +396,6 @@ class BuyerController extends Controller
                     'user_id'       => $sessionuser[0]->id,
                     'status'        => "Active"
                 ]);
-               
             }
             if ($uploadtodatabase) {
                 $request->session()->flash('vdocumentuploaded', 'Document Uploaded Successfully');
@@ -408,13 +407,80 @@ class BuyerController extends Controller
         }
     }
 
-    public function imagedeletev(Request $request , $id,$url){
-       
-        $deleted = DB::table('privateuserdocuments')->where('id',$id)->delete();
-        if($deleted){
-            File::delete('uploads/'.$url);
+    public function imagedeletev(Request $request, $id, $url)
+    {
+
+        $deleted = DB::table('privateuserdocuments')->where('id', $id)->delete();
+        if ($deleted) {
+            File::delete('uploads/' . $url);
             return redirect()->back();
         }
         return redirect()->back();
+    }
+
+    public function community(Request $request)
+    {
+        $sessionuser  = $request->session()->get('RetailerData');
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+        foreach ($UserProfile as $profile) {
+            $id = $profile->id;
+            $username  = $profile->username;
+            $Name = $profile->goodName;
+        }
+        $chats = DB::table('communitychat')->where('status', 'Active')->get();
+        return view('foodbusiness.community', [
+            'name' => $Name,
+            'chats' => $chats,
+            'userID' => $sessionuser[0]->id
+        ]);
+    }
+
+    public function communitymessage(Request $request)
+    {
+        $sessionuser  = $request->session()->get('RetailerData');
+        $chatstodb = DB::table('communitychat')->insertGetId([
+            'message' => $request['message'],
+            'date' => date('Y-m-d'),
+            'time' => date('H:i:S'),
+            'user_id' => $sessionuser[0]->id,
+            'status' => 'Active'
+        ]);
+        
+        $chats = DB::table('communitychat')->where('status','Active')->get();
+        $message = [];
+        foreach ($chats as $chat){
+            $message['message'] = $chat->message;
+            $message['date'] = $chat->date;
+            $message['time'] = $chat->time;
+            $message['userID'] = $chat->user_id;
+        }
+        return $message;
+           
+        
+    }
+
+    public function getmessage(Request $request){
+        $chats = DB::table('communitychat')->where('status','Active')->get();
+        $sessionuser  = $request->session()->get('RetailerData');
+        foreach($chats as $chat){
+            if($chat->user_id == $sessionuser[0]->id){
+                echo  '<div class="dialog-2">';
+            }
+            else{
+                echo  '<div class="dialog-1">';
+            }
+          
+           echo  '<div class="right-point" >';
+            echo   ' <div class="message-l">';
+            echo $chat->message;
+             echo        '</br>';
+               echo     '<small>Hamza Farooq : 10:00pm </small>';
+                echo    '<br>';
+                 echo   '<small class="deleteMessage">Delete Message</small>';
+                echo '</div>';
+                echo '</div>';
+             echo '</div>';
+        }
+       
     }
 }
