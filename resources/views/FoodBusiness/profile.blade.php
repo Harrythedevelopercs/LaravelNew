@@ -476,18 +476,18 @@
                         @csrf
                         <div class="col-12 mt-3">
                                 <lable>Instagram</lable>
-                                <input type="text" name="instagram" class="form-control"  placeholder="Enter Your Instagram link here" />
+                                <input type="text" name="instagram" value="{{$instagram}}" class="form-control"  placeholder="Enter Your Instagram link here" />
                                 </div>
                                 <div class="col-12 mt-3">
                                 <lable>Facebook</lable>
-                                <input type="text" name="Facebook" class="form-control"  placeholder="Enter Your Facebook link here" />
+                                <input type="text" name="Facebook" value="{{$facebook}}" class="form-control"  placeholder="Enter Your Facebook link here" />
                                 <div class="col-12 mt-3" >
                                 <lable>Twitter</lable>
-                                <input type="text" name="twitter" class="form-control"  placeholder="Enter Your Twitter link here" />
+                                <input type="text" name="twitter" value="{{$twitter}}" class="form-control"  placeholder="Enter Your Twitter link here" />
                                 </div>
                                 <div class="col-12 mt-3">
                                 <lable>Website</lable>
-                                <input type="text" name="Website" class="form-control"  placeholder="Enter Your Website link here" />
+                                <input type="text" name="Website" value="{{$website}}" class="form-control"  placeholder="Enter Your Website link here" />
                                 </div>
                                 <div class="row mt-3">
                                 <div class="col-8">  
@@ -597,11 +597,14 @@
             type : 'post',
             url : '/Subscriber/profile/socailmedia',
             data : form,
+           
             success:function(Response){
-                console.log(Response);
+                alert(Response);
+               window.location.reload();
             },
             error:function(Response){
-                console.log(Response);
+                alert(Response);
+               window.location.reload();
             }
         })
     });

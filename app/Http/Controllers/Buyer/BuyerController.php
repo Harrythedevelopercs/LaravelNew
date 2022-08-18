@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File; 
 
 
 
@@ -13,14 +14,15 @@ use Illuminate\Support\Facades\Hash;
 class BuyerController extends Controller
 {
 
-    public function dashboard(Request $request){
+    public function dashboard(Request $request)
+    {
 
         $sessionuser  = $request->session()->get('RetailerData');
-        
-        $UserProfile = DB::table('users')->where('email',$sessionuser[0]->email)->get();
-       
 
-        foreach($UserProfile as $profile){
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+
+
+        foreach ($UserProfile as $profile) {
             $id = $profile->id;
             $username  = $profile->username;
             $password  = $profile->password;
@@ -31,9 +33,9 @@ class BuyerController extends Controller
             $role = $profile->role;
             $status = $profile->Status;
         }
-        
-       return view('FoodBusiness.dashboard',[
-            'id'=> $id,
+
+        return view('FoodBusiness.dashboard', [
+            'id' => $id,
             'username'  =>  $username,
             'password'  =>  $password,
             'email'     =>  $email,
@@ -45,8 +47,9 @@ class BuyerController extends Controller
         ]);
     }
 
-    public function logout(Request $request){
-        if($request->session()->exists('RetailerData')){
+    public function logout(Request $request)
+    {
+        if ($request->session()->exists('RetailerData')) {
             $request->session()->pull('RetailerData');
             $request->session()->flush();
         }
@@ -54,10 +57,11 @@ class BuyerController extends Controller
     }
 
 
-    public function bookings(Request $request){
+    public function bookings(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
-        $UserProfile = DB::table('users')->where('email',$sessionuser[0]->email)->get();
-        foreach($UserProfile as $profile){
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+        foreach ($UserProfile as $profile) {
             $id = $profile->id;
             $username  = $profile->username;
             $password  = $profile->password;
@@ -68,8 +72,8 @@ class BuyerController extends Controller
             $role = $profile->role;
             $status = $profile->Status;
         }
-        return view('FoodBusiness.bookings',[
-            'id'=> $id,
+        return view('FoodBusiness.bookings', [
+            'id' => $id,
             'username'  =>  $username,
             'password'  =>  $password,
             'email'     =>  $email,
@@ -80,10 +84,11 @@ class BuyerController extends Controller
             'status'    =>  $status,
         ]);
     }
-    public function calendar(Request $request){
+    public function calendar(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
-        $UserProfile = DB::table('users')->where('email',$sessionuser[0]->email)->get();
-        foreach($UserProfile as $profile){
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+        foreach ($UserProfile as $profile) {
             $id = $profile->id;
             $username  = $profile->username;
             $password  = $profile->password;
@@ -94,8 +99,8 @@ class BuyerController extends Controller
             $role = $profile->role;
             $status = $profile->Status;
         }
-        return view('FoodBusiness.calendar',[
-            'id'=> $id,
+        return view('FoodBusiness.calendar', [
+            'id' => $id,
             'username'  =>  $username,
             'password'  =>  $password,
             'email'     =>  $email,
@@ -107,10 +112,11 @@ class BuyerController extends Controller
         ]);
     }
 
-    public function profile(Request $request){
+    public function profile(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
-        $UserProfile = DB::table('users')->where('email',$sessionuser[0]->email)->get();
-        foreach($UserProfile as $profile){
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+        foreach ($UserProfile as $profile) {
             $id = $profile->id;
             $username  = $profile->username;
             $password  = $profile->password;
@@ -122,11 +128,12 @@ class BuyerController extends Controller
             $status = $profile->Status;
             $salt = $profile->salt;
         }
-        
-        $BusinessProfile = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->get();
-        if(!empty($BusinessProfile) ){
+
+        $BusinessProfile = DB::table('bussiness_information')->where('user_id', $sessionuser[0]->id)->get();
+
+        if (sizeof($BusinessProfile) != 0) {
             $bbtype = [];
-            foreach($BusinessProfile as $bprofile){
+            foreach ($BusinessProfile as $bprofile) {
                 $bid = ($bprofile->id) ? $bprofile->id : "0";
                 $bname = ($bprofile->bussiness_name) ? $bprofile->bussiness_name : "Your Business Name";
                 $bcat = ($bprofile->business_category) ? $bprofile->business_category : "Your Business Category";
@@ -134,10 +141,8 @@ class BuyerController extends Controller
                 $bbtype = ($bprofile->product_type) ? json_decode($bprofile->product_type) : "[0]";
                 $bstage = ($bprofile->business_stage) ? $bprofile->business_stage : "Your Business Stage";
                 $blogo = ($bprofile->logo) ? $bprofile->logo : "Your Logo";
-    
             }
-        }
-        else{
+        } else {
             $bid = "0";
             $bname =  "Your Business Name";
             $bcat =  "Your Business Category";
@@ -146,15 +151,30 @@ class BuyerController extends Controller
             $bstage =  "Your Business Stage";
             $blogo =  "Your Logo";
         }
-        
-        $SocialProfile = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->get();
-        foreach($SocialProfile as $smprofile){
-           $id = ($smprofile->id) ? $smprofile->id : "0";
-           $instagram = ($smprofile->instagram) ? $smprofile->instagram : "";
+
+        $SocialProfile = DB::table('social_media')->where('user_id', $sessionuser[0]->id)->get();
+        if (sizeof($SocialProfile) != 0) {
+            foreach ($SocialProfile as $smprofile) {
+                $id = ($smprofile->id) ? $smprofile->id : "0";
+                $instagram = ($smprofile->instagram) ? $smprofile->instagram : "";
+                $facebook = ($smprofile->facebook) ? $smprofile->facebook  : "";
+                $twitter = ($smprofile->twitter) ? $smprofile->twitter : "";
+                $website = ($smprofile->website) ? $smprofile->website : "";
+            }
+        } else {
+            $id =  "0";
+            $instagram =  "";
+            $facebook =  "";
+            $twitter =  "";
+            $website =  "";
         }
- 
-        return view('FoodBusiness.profile',[
-            'id'=> $id,
+
+
+
+
+
+        return view('FoodBusiness.profile', [
+            'id' => $id,
             'username'  =>  $username,
             'password'  =>  $password,
             'email'     =>  $email,
@@ -166,33 +186,37 @@ class BuyerController extends Controller
             'salt'      => $salt,
             'bid'       => $bid,
             'bname'     => $bname,
-            'bcat'      => $bcat, 
+            'bcat'      => $bcat,
             'bdescription' => $bdescription,
             'btype'         => $bbtype,
             'bstage'        => $bstage,
             'blogo' => $blogo,
+            'instagram' => $instagram,
+            'facebook' => $facebook,
+            'twitter' => $twitter,
+            'website' => $website,
         ]);
     }
 
 
-    public function updateprofile(Request $request){
-         
+    public function updateprofile(Request $request)
+    {
+
         $sessionuser  = $request->session()->get('RetailerData');
-        $userupdate = DB::table('users')->where('email',$sessionuser[0]->email)->update([
+        $userupdate = DB::table('users')->where('email', $sessionuser[0]->email)->update([
             'goodName' => $request['fname']
         ]);
 
-        if($userupdate){
+        if ($userupdate) {
             return "Data Updated";
-        }
-        else{
+        } else {
             return "Data Not Updated";
         }
-
     }
 
-    
-    public function updatebusiness(Request $request){
+
+    public function updatebusiness(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
         $bname = $request->input('bname');
         $bcat = $request->input('bcategory');
@@ -201,79 +225,72 @@ class BuyerController extends Controller
         $bstage = $request->input('business_stage');
 
 
-        if($request->hasFile('logofile')){
+        if ($request->hasFile('logofile')) {
             $file = $request->file('logofile')->getClientOriginalName();
-            $save = time()."_".$file;
-            $uploaded = $request->file('logofile')->move(public_path('uploads'),$save);
-            if($uploaded){
-               
-                $findbusiness = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->count();
-                if($findbusiness > 0){
-                    $insertorupdate = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->update([
-                        'bussiness_name'=> ($bname) ? $bname : "Empty Name",
-                        'business_category'=> ($bcat) ? $bcat : "Empty Category",
+            $save = time() . "_" . $file;
+            $uploaded = $request->file('logofile')->move(public_path('uploads'), $save);
+            if ($uploaded) {
+
+                $findbusiness = DB::table('bussiness_information')->where('user_id', $sessionuser[0]->id)->count();
+                if ($findbusiness > 0) {
+                    $insertorupdate = DB::table('bussiness_information')->where('user_id', $sessionuser[0]->id)->update([
+                        'bussiness_name' => ($bname) ? $bname : "Empty Name",
+                        'business_category' => ($bcat) ? $bcat : "Empty Category",
                         'business_description' => ($bdescription) ? $bdescription : "Empty Description",
                         'product_type' => json_encode($btype),
                         'business_stage' => ($bstage) ? $bstage : "Empty Stage",
                         'logo' => $save,
-                        'status'=> 'Active',
-                        'user_id' =>$sessionuser[0]->id,
+                        'status' => 'Active',
+                        'user_id' => $sessionuser[0]->id,
                     ]);
                     return redirect()->back();
-                }
-                else 
-                {
-                    $insertorupdate = DB::table('bussiness_information')->where('user_id',$sessionuser[0]->id)->updateOrInsert([
-                        'bussiness_name'=> $bname,
-                        'business_category'=> $bcat,
+                } else {
+                    $insertorupdate = DB::table('bussiness_information')->where('user_id', $sessionuser[0]->id)->updateOrInsert([
+                        'bussiness_name' => $bname,
+                        'business_category' => $bcat,
                         'business_description' => $bdescription,
                         'product_type' => json_encode($btype),
                         'business_stage' => $bstage,
                         'logo' => $save,
-                        'status'=> 'Active',
-                        'user_id' =>$sessionuser[0]->id,
+                        'status' => 'Active',
+                        'user_id' => $sessionuser[0]->id,
                     ]);
                     return redirect()->back();
                 }
-               
             }
-        }
-        else{
+        } else {
             return "NO FILE ATTACH";
         }
-       
-       
-
     }
 
-    public function confirmpayment(Request $request){
+    public function confirmpayment(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
-
-
     }
 
-    public function securitypass(Request $request){
+    public function securitypass(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
         $newpass = $request['newpassword'];
         $newpass = Hash::make($newpass);
-        $updateuserpassword = DB::table('users')->where('email',$sessionuser[0]->email)->update(['password' => $newpass]);
-        if($updateuserpassword){
+        $updateuserpassword = DB::table('users')->where('email', $sessionuser[0]->email)->update(['password' => $newpass]);
+        if ($updateuserpassword) {
             return "Password Updated Successfully";
-        }
-        else{
+        } else {
             return "Please Contact Your Administrator Password Not Changed";
         }
     }
 
-    public function socailmedia(Request $request){
+    public function socailmedia(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
         $instagram = $request['instagram'];
         $facebook = $request['Facebook'];
         $twitter = $request['twitter'];
         $website = $request['Website'];
-        $checkif = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->count();
-        if($checkif > 0){
-            $insertsocial = DB::table('social_media')->where('user_id',$sessionuser[0]->id)->update([
+        $checkif = DB::table('social_media')->where('user_id', $sessionuser[0]->id)->count();
+        if ($checkif > 0) {
+            $insertsocial = DB::table('social_media')->where('user_id', $sessionuser[0]->id)->update([
                 'instagram' => ($instagram) ? $instagram : "Your Instagram account",
                 'facebook' => ($facebook) ? $facebook : "Your Facebook account",
                 'twitter' => ($twitter) ? $twitter : "Your Twitter account",
@@ -281,14 +298,12 @@ class BuyerController extends Controller
                 'status' => 'Active',
                 'user_id' => $sessionuser[0]->id
             ]);
-            if($insertsocial){
+            if ($insertsocial) {
                 return "Social Media Update ";
-            }
-            else{
+            } else {
                 return "Error";
             }
-        } 
-        else{
+        } else {
             $insertsocial = DB::table('social_media')->insert([
                 'instagram' => ($instagram) ? $instagram : "Your Instagram account",
                 'facebook' => ($facebook) ? $facebook : "Your Facebook account",
@@ -297,67 +312,68 @@ class BuyerController extends Controller
                 'status' => 'Active',
                 'user_id' => $sessionuser[0]->id
             ]);
-            if($insertsocial){
+            if ($insertsocial) {
                 return "Social Media Update ";
-            }
-            else{
+            } else {
                 return "Error";
             }
         }
-       
     }
 
-    public function documents(Request $request){
+    public function documents(Request $request)
+    {
         $sessionuser  = $request->session()->get('RetailerData');
-        $UserProfile = DB::table('users')->where('email',$sessionuser[0]->email)->get();
-        foreach($UserProfile as $profile){
+        $UserProfile = DB::table('users')->where('email', $sessionuser[0]->email)->get();
+        foreach ($UserProfile as $profile) {
             $id = $profile->id;
             $username  = $profile->username;
-            $password  = $profile->password;
-            $email     = $profile->email;
-            $workemail = $profile->workEmail;
-            $joiningDate = $profile->joiningDate;
             $Name = $profile->goodName;
-            $role = $profile->role;
-            $status = $profile->Status;
-            $salt = $profile->salt;
         }
- 
-        return view('FoodBusiness.document',[
-            'id'=> $id,
-            'username'  =>  $username,
-            'password'  =>  $password,
-            'email'     =>  $email,
-            'workEmail' =>  $workemail,
-            'joinD'     =>  $joiningDate,
-            'name'      =>  $Name,
-            'role'      =>  $role,
-            'status'    =>  $status,
-            'salt'      => $salt,
+        $documents = DB::table('userdocuments')->where('user_id', $sessionuser[0]->id)->get();
+
+
+        return view('FoodBusiness.document', [
+            'id' => $id,
+            'name' => $Name,
+            'documents' => $documents
         ]);
-       
     }
 
-    public function vupload(Request $request){
-        if($request->hasfile('files'))
-
-        {
-
-           foreach($request->file('files') as $file)
-
-           {
-
-                $name = time().'.'.$file->getClientOriginalName();
-                $file->move(public_path('uploads'),$name);
-            //   $file->move(public_path().'/files/', $name);  
-
-                $data[] = $name;  
-
-           }
-            if(empty($data)){
-
+    public function vupload(Request $request)
+    {
+        if ($request->hasfile('files')) {
+            $sessionuser  = $request->session()->get('RetailerData');
+            foreach ($request->file('files') as $file) {
+                $name = time() . '.' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $name);
+                $data[] = $name;
+                $uploadtodatabase = DB::table('userdocuments')->insert([
+                    'documenturl'   => $name,
+                    'title'         => $file->getClientOriginalName(),
+                    'extension'     => $file->getClientOriginalExtension(),
+                    'expirations'   => date('Y-m-d H:i:s', strtotime("+7 day")),
+                    'user_id'       => $sessionuser[0]->id,
+                    'status'        => "Active"
+                ]);
+               
             }
-
+            if ($uploadtodatabase) {
+                $request->session()->flash('documentuploaded', 'Document Uploaded Successfully');
+                return redirect()->back();
+            } else {
+                $request->session()->flash('documentuploaded', 'Erorr While Uploading');
+                return redirect()->back();
+            }
         }
+    }
+
+    public function imagedelete(Request $request , $id,$url){
+       
+        $deleted = DB::table('userdocuments')->where('id',$id)->delete();
+        if($deleted){
+            File::delete('uploads/'.$url);
+            return redirect()->back();
+        }
+        return redirect()->back();
     }
 }

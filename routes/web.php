@@ -95,7 +95,9 @@ Route::controller(MasterController::class)->group( function () {
             Route::post('/Subscriber/profile/socailmedia', 'socailmedia');
             Route::get('/Subscriber/documents', 'documents');
             Route::get('/Subscriber/reports', 'reports');
-            Route::post(' /Subscriber/documents/verify/upload', 'vupload');
+            Route::post('/Subscriber/documents/verify/upload', 'vupload');
+            Route::post('/Subscriber/documents/own/upload', 'ownupload');
+            Route::get('/Subscriber/image/delete/{id}/{url}','imagedelete');
            
             Route::get('/Subscriber/community', 'community');
            

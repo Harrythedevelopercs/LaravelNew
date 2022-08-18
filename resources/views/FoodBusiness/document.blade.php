@@ -53,22 +53,49 @@
                                         <tr>
                                             <th>TITLE</th>
                                             <th>Expiration</th>
-                                            <th>Last Updated</th>
+                                            <th>Action</th>
                                             <th>&nbsp;</th>
                                         </tr>
+                                        @if(sizeof($documents) != 0)
+                                        @foreach($documents as $doc)
+                                        <tr>
+                                            <td>
+                                                
+                                               <a href="{{ URL::asset('uploads/'.$doc->documenturl)}}">{{ $doc->title }}</a>
+                                            </td>
+                                            <td>
+                                               {{ $doc->expirations }}
+                                            </td>
+                                            <td>
+                                               <a href="/Subscriber/image/delete/{{ $doc->id }}/{{ $doc->documenturl }}" class="btn btn-danger">-</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @endif
+
                                         <tr>
                                             <td class="add-new-space-calendar" colspan="4">
                                                 <form action="/Subscriber/documents/verify/upload" method="post" enctype="multipart/form-data">
 
                                                     @csrf
 
-                                                    <input type="file" name="files[]" accept="image/*" multiple class="form-control">
+                                                    <input type="file" name="files[]"  multiple class="form-control">
 
                                                     <br>
 
-                                                    <input type="submit" value="Uploads" class="btn btn-outline-primary btn-sm"/>
+                                                    <input type="submit" value="Uploads" class="btn btn-outline-primary btn-sm" />
                                                     <br>
                                                 </form>
+
+                                                @if(session('documentuploaded'))
+                                                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                                    {{ session('documentuploaded') }}
+                                                </div>
+                                                <script>
+                                                    $('.fade').fadeOut(5000);
+                                                </script>
+                                                @endif
+
                                             </td>
                                         </tr>
                                     </tbody>
@@ -94,6 +121,8 @@
                                             <td class="add-new-space-calendar">
                                                 <form action="/Subscriber/documents/own/upload" method="post" enctype="multipart/form-data">
                                                     <input type="file" name="" class="form-control" />
+                                                    <br>
+                                                    <input type="submit" value="upload" class="btn btn-outline-info"/>
                                                 </form>
                                             </td>
                                         </tr>
