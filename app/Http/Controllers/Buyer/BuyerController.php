@@ -330,12 +330,14 @@ class BuyerController extends Controller
             $Name = $profile->goodName;
         }
         $documents = DB::table('userdocuments')->where('user_id', $sessionuser[0]->id)->get();
+        $documentsprivateuserdocuments = DB::table('privateuserdocuments')->where('user_id', $sessionuser[0]->id)->get();
 
 
         return view('FoodBusiness.document', [
             'id' => $id,
             'name' => $Name,
-            'documents' => $documents
+            'documents' => $documents,
+            'documentsp' => $documentsprivateuserdocuments,
         ]);
     }
 
@@ -370,6 +372,45 @@ class BuyerController extends Controller
     public function imagedelete(Request $request , $id,$url){
        
         $deleted = DB::table('userdocuments')->where('id',$id)->delete();
+        if($deleted){
+            File::delete('uploads/'.$url);
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
+
+
+    public function ownupload(Request $request)
+    {
+        if ($request->hasfile('files')) {
+            $sessionuser  = $request->session()->get('RetailerData');
+            foreach ($request->file('files') as $file) {
+                $name = time() . '.' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $name);
+                $data[] = $name;
+                $uploadtodatabase = DB::table('privateuserdocuments')->insert([
+                    'documenturl'   => $name,
+                    'title'         => $file->getClientOriginalName(),
+                    'extension'     => $file->getClientOriginalExtension(),
+                    'expirations'   => date('Y-m-d H:i:s', strtotime("+7 day")),
+                    'user_id'       => $sessionuser[0]->id,
+                    'status'        => "Active"
+                ]);
+               
+            }
+            if ($uploadtodatabase) {
+                $request->session()->flash('vdocumentuploaded', 'Document Uploaded Successfully');
+                return redirect()->back();
+            } else {
+                $request->session()->flash('vdocumentuploaded', 'Erorr While Uploading');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function imagedeletev(Request $request , $id,$url){
+       
+        $deleted = DB::table('privateuserdocuments')->where('id',$id)->delete();
         if($deleted){
             File::delete('uploads/'.$url);
             return redirect()->back();

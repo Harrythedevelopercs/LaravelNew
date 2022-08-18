@@ -60,14 +60,14 @@
                                         @foreach($documents as $doc)
                                         <tr>
                                             <td>
-                                                
-                                               <a href="{{ URL::asset('uploads/'.$doc->documenturl)}}">{{ $doc->title }}</a>
+
+                                                <a href="{{ URL::asset('uploads/'.$doc->documenturl)}}">{{ $doc->title }}</a>
                                             </td>
                                             <td>
-                                               {{ $doc->expirations }}
+                                                {{ $doc->expirations }}
                                             </td>
                                             <td>
-                                               <a href="/Subscriber/image/delete/{{ $doc->id }}/{{ $doc->documenturl }}" class="btn btn-danger">-</a>
+                                                <a href="/Subscriber/image/delete/{{ $doc->id }}/{{ $doc->documenturl }}" class="btn btn-danger">-</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -79,7 +79,7 @@
 
                                                     @csrf
 
-                                                    <input type="file" name="files[]"  multiple class="form-control">
+                                                    <input type="file" name="files[]" multiple class="form-control">
 
                                                     <br>
 
@@ -113,16 +113,42 @@
                                 <table class="table table-striped scheduling-submited-booking-table-1 margin-bottom-32">
                                     <tbody>
                                         <tr class="tfc-fees-empty-state">
-                                            <td colspan="">
-                                                Upload any documents that you would like to store for your own records.
+                                            <th>TITLE</th>
+                                            <th>Expiration</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                        @if(sizeof($documentsp) != 0)
+                                        @foreach($documentsp as $doc)
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{ URL::asset('uploads/'.$doc->documenturl)}}">{{ $doc->title }}</a>
+                                            </td>
+                                            <td>
+                                                {{ $doc->expirations }}
+                                            </td>
+                                            <td>
+                                                <a href="/Subscriber/image/vdelete/{{ $doc->id }}/{{ $doc->documenturl }}" class="btn btn-danger">-</a>
                                             </td>
                                         </tr>
+                                        @endforeach
+                                        @endif
                                         <tr>
-                                            <td class="add-new-space-calendar">
+                                            <td >
                                                 <form action="/Subscriber/documents/own/upload" method="post" enctype="multipart/form-data">
-                                                    <input type="file" name="" class="form-control" />
+                                                    @csrf
+                                                    <input type="file" name="files[]" class="form-control" />
                                                     <br>
-                                                    <input type="submit" value="upload" class="btn btn-outline-info"/>
+                                                    <input type="submit" value="upload" class="btn btn-outline-info" />
+                                                    @if(session('vdocumentuploaded'))
+                                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                                        {{ session('vdocumentuploaded') }}
+                                                    </div>
+                                                    <script>
+                                                        $('.fade').fadeOut(10000);
+                                                    </script>
+                                                    @endif
                                                 </form>
                                             </td>
                                         </tr>
